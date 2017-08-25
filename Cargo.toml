@@ -1,0 +1,11 @@
+[package]
+name = "server"
+version = "0.1.0"
+authors = ["Markus Reiter <me@reitermark.us>"]
+
+[dependencies]
+iron = "0.5.*"
+staticfile = "0.4.*"
+mount = "0.3.*"
+
+chrono = "0.4.0"
