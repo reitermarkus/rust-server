@@ -1,0 +1,12 @@
+#!/bin/bash
+
+RUST_USER="$(docker run ekidd/rust-musl-builder whoami)"
+RUST_USER_ID="$(docker run ekidd/rust-musl-builder id -u)"
+
+# Create a `rust` user locally, to prevent a “permission denied” error.
+useradd --shell /bin/bash -u "$RUST_USER_ID" -o -c "" -m "$RUST_USER"
+setfacl -m "u:$RUST_USER:rwx" "$(pwd)"
+chown -R "$RUST_USER" "$(pwd)"
+
+docker run -u "$RUST_USER_ID" -v "$(pwd):/home/rust/src" -v /var/run/docker.sock:/var/run/docker.sock ekidd/rust-musl-builder \
+  cargo build --release
